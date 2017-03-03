@@ -14,12 +14,19 @@
 + (void)setSignalSecureWebSocketAPI: (NSString *)secureWebSocketAPI
                     secureServerURL: (NSString *)secureServerURL
                     redphoneCerName: (NSString *)redphoneCerName
-                  textsecureCerName: (NSString *)textsecureCerName;
+                  textsecureCerName: (NSString *)textsecureCerName
+                 redphoneServerPort: (int)redphoneServerPort
+                   redphoneHostName: (NSString *)redphoneHostName
+             redphoneHostNamePrefix: (NSString *)redphoneHostNamePrefix;
 
 + (NSString *)textSecureWebSocketAPI;
 + (NSString *)textSecureServerURL;
 + (NSString *)redphoneCer;
 + (NSString *)textsecureCer;
+
++ (int)redphoneServerPort;
++ (NSString *)redphoneHostName;
++ (NSString *)redphoneHostNamePrefix;
 
 @end
 
