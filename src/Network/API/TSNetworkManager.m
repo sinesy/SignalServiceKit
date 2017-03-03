@@ -42,8 +42,9 @@ typedef void (^failureBlock)(NSURLSessionDataTask *task, NSError *error);
 - (id)init {
     if (self = [super init]) {
         NSURLSessionConfiguration *sessionConf = NSURLSessionConfiguration.ephemeralSessionConfiguration;
+   
         self.operationManager =
-            [[AFHTTPSessionManager alloc] initWithBaseURL:[[NSURL alloc] initWithString:textSecureServerURL]
+            [[AFHTTPSessionManager alloc] initWithBaseURL:[[NSURL alloc] initWithString:[TSConstants textSecureServerURL]]
                                      sessionConfiguration:sessionConf];
         self.operationManager.securityPolicy = [AFSecurityOWSPolicy OWS_PinningPolicy];
     }
@@ -67,7 +68,7 @@ typedef void (^failureBlock)(NSURLSessionDataTask *task, NSError *error);
             setAuthorizationHeaderFieldWithUsername:((TSVerifyCodeRequest *)request).numberToValidate
                                            password:[request.parameters objectForKey:@"AuthKey"]];
         [request.parameters removeObjectForKey:@"AuthKey"];
-        [self.operationManager PUT:[textSecureServerURL stringByAppendingString:request.URL.absoluteString]
+        [self.operationManager PUT:[[TSConstants textSecureServerURL] stringByAppendingString:request.URL.absoluteString]
                         parameters:request.parameters
                            success:success
                            failure:failure];
@@ -79,24 +80,24 @@ typedef void (^failureBlock)(NSURLSessionDataTask *task, NSError *error);
         }
 
         if ([request.HTTPMethod isEqualToString:@"GET"]) {
-            [self.operationManager GET:[textSecureServerURL stringByAppendingString:request.URL.absoluteString]
+            [self.operationManager GET:[[TSConstants textSecureServerURL] stringByAppendingString:request.URL.absoluteString]
                             parameters:request.parameters
                               progress:nil
                                success:success
                                failure:failure];
         } else if ([request.HTTPMethod isEqualToString:@"POST"]) {
-            [self.operationManager POST:[textSecureServerURL stringByAppendingString:request.URL.absoluteString]
+            [self.operationManager POST:[[TSConstants textSecureServerURL] stringByAppendingString:request.URL.absoluteString]
                              parameters:request.parameters
                                progress:nil
                                 success:success
                                 failure:failure];
         } else if ([request.HTTPMethod isEqualToString:@"PUT"]) {
-            [self.operationManager PUT:[textSecureServerURL stringByAppendingString:request.URL.absoluteString]
+            [self.operationManager PUT:[[TSConstants textSecureServerURL] stringByAppendingString:request.URL.absoluteString]
                             parameters:request.parameters
                                success:success
                                failure:failure];
         } else if ([request.HTTPMethod isEqualToString:@"DELETE"]) {
-            [self.operationManager DELETE:[textSecureServerURL stringByAppendingString:request.URL.absoluteString]
+            [self.operationManager DELETE:[[TSConstants textSecureServerURL] stringByAppendingString:request.URL.absoluteString]
                                parameters:request.parameters
                                   success:success
                                   failure:failure];
