@@ -97,7 +97,7 @@ NSString *const SocketConnectingNotification = @"SocketConnectingNotification";
     }
 
     NSString *webSocketConnect =
-        [textSecureWebSocketAPI stringByAppendingString:[[self sharedManager] webSocketAuthenticationString]];
+        [[TSConstants textSecureWebSocketAPI] stringByAppendingString:[[self sharedManager] webSocketAuthenticationString]];
     NSURL *webSocketConnectURL   = [NSURL URLWithString:webSocketConnect];
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:webSocketConnectURL];
     request.securityPolicy       = [AFSecurityOWSPolicy OWS_PinningPolicy];

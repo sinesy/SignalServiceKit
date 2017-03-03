@@ -8,6 +8,7 @@
 
 #import <AssertMacros.h>
 #import "AFSecurityOWSPolicy.h"
+#import "TSConstants.h"
 
 @implementation AFSecurityOWSPolicy
 
@@ -25,8 +26,8 @@
 
     if (self) {
         self.pinnedCertificates = [NSSet setWithArray:@[
-            [self certificateDataForService:@"textsecure"],
-            [self certificateDataForService:@"redphone"]
+            [self certificateDataForService:[TSConstants redphoneCer]],
+            [self certificateDataForService:[TSConstants textsecureCer]]
         ]];
     }
 

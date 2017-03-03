@@ -9,6 +9,21 @@
 #import <Foundation/Foundation.h>
 @class TSNumberVerifier;
 
+@interface  TSConstants : NSObject
+
++ (void)setSignalSecureWebSocketAPI: (NSString *)secureWebSocketAPI
+                    secureServerURL: (NSString *)secureServerURL
+                    redphoneCerName: (NSString *)redphoneCerName
+                  textsecureCerName: (NSString *)textsecureCerName;
+
++ (NSString *)textSecureWebSocketAPI;
++ (NSString *)textSecureServerURL;
++ (NSString *)redphoneCer;
++ (NSString *)textsecureCer;
+
+@end
+
+
 #ifndef TextSecureKit_Constants_h
 #define TextSecureKit_Constants_h
 
@@ -26,11 +41,6 @@ typedef enum { kSMSVerification, kPhoneNumberVerification } VerificationTranspor
 
 #define textSecureHTTPTimeOut 10
 
-#define textSecureWebSocketAPI @"wss://textsecure-service.whispersystems.org/v1/websocket/"
-#define textSecureServerURL @"https://textsecure-service.whispersystems.org/"
-
-//#define textSecureWebSocketAPI    @"wss://textsecure-service-staging.whispersystems.org/v1/websocket/"
-//#define textSecureServerURL       @"https://textsecure-service-staging.whispersystems.org/"
 
 #define textSecureGeneralAPI @"v1"
 #define textSecureAccountsAPI @"v1/accounts"
