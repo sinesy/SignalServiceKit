@@ -22,8 +22,8 @@
 #import "TSStorageHeaders.h"
 #import "TextSecureKitEnv.h"
 
-
-@interface TSMessagesManager ()
+@interface TSMessagesManager (){
+}
 
 @end
 
@@ -250,7 +250,11 @@
     [self.dbConnection readWriteWithBlock:^(YapDatabaseReadWriteTransaction *transaction) {
       TSIncomingMessage *incomingMessage;
       TSThread *thread;
+        
       if (groupId) {
+          
+          //è un GRUPPO
+          
           TSGroupModel *model =
               [[TSGroupModel alloc] initWithTitle:content.group.name
                                         memberIds:[[[NSSet setWithArray:content.group.members] allObjects] mutableCopy]
@@ -261,6 +265,9 @@
           [gThread saveWithTransaction:transaction];
 
           if (content.group.type == PushMessageContentGroupContextTypeUpdate) {
+              
+              [self refreshContactList];
+              
               if ([attachments count] == 1) {
                   NSString *avatarId   = [attachments firstObject];
                   TSAttachment *avatar = [TSAttachment fetchObjectWithUniqueID:avatarId];
@@ -310,10 +317,19 @@
 
           thread = gThread;
       } else {
+          
+          //CONTATTO
+          
           TSContactThread *cThread = [TSContactThread getOrCreateThreadWithContactId:message.source
                                                                          transaction:transaction
                                                                           pushSignal:message];
-
+        
+          if(cThread.isNewContactThread){
+              //se è un thread nuovo riaggiorno i contatti
+              [self refreshContactList];
+              cThread.isNewContactThread = false;
+          }
+          
           incomingMessage = [[TSIncomingMessage alloc] initWithTimestamp:timeStamp
                                                                 inThread:cThread
                                                              messageBody:body
@@ -361,6 +377,13 @@
                                                             inThread:thread];
       }
     }];
+}
+
+
+-(void)refreshContactList{
+    if(_updateContactsBlock){
+        _updateContactsBlock();
+    }
 }
 
 - (void)processException:(NSException *)exception pushSignal:(IncomingPushMessageSignal *)signal {

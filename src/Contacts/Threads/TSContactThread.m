@@ -13,7 +13,15 @@
 
 #define TSContactThreadPrefix @"c"
 
-@implementation TSContactThread
+@implementation TSContactThread{
+    
+}
+
+static bool isHiddenPhoneNumber = false;
+
++ (void)setIsHiddenPhoneNumber: (bool)isHidden{
+    isHiddenPhoneNumber = isHidden;
+}
 
 - (instancetype)initWithContactId:(NSString *)contactId {
     NSString *uniqueIdentifier = [[self class] threadIdFromContactId:contactId];
@@ -52,7 +60,10 @@
 
     if (!thread) {
         thread = [[TSContactThread alloc] initWithContactId:contactId];
+        thread.isNewContactThread = true;
         [thread saveWithTransaction:transaction];
+    }else{
+        thread.isNewContactThread = false;
     }
 
     return thread;
@@ -67,11 +78,17 @@
 }
 
 - (NSString *)name {
+    
+    
     NSString *contactId = [self contactIdentifier];
     NSString *name      = [[TextSecureKitEnv sharedEnv].contactsManager nameStringForPhoneIdentifier:contactId];
 
     if (!name) {
-        name = contactId;
+        if(isHiddenPhoneNumber){
+            name = NSLocalizedString(@"DELETED_CONTACT_NAME", @"");
+        }else{
+            name = contactId;
+        }
     }
 
     return name;

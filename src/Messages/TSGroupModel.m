@@ -94,10 +94,17 @@ NSString *const TSAttachementGroupAvatarFileRelationshipEdge = @"TSAttachementGr
     }
 
     if ([membersWhoJoined count] > 0) {
-        updatedGroupInfoString = [updatedGroupInfoString
-            stringByAppendingString:[NSString stringWithFormat:NSLocalizedString(@"GROUP_MEMBER_JOINED", @""),
+        
+        
+        if(isHiddenPhoneNumber){
+            updatedGroupInfoString = NSLocalizedString(@"GROUP_UPDATED", @"");
+        }else{
+        
+            updatedGroupInfoString = [updatedGroupInfoString
+                                      stringByAppendingString:[NSString stringWithFormat:NSLocalizedString(@"GROUP_MEMBER_JOINED", @""),
                                                                [[membersWhoJoined allObjects]
-                                                                   componentsJoinedByString:@", "]]];
+                                                                componentsJoinedByString:@", "]]];
+        }
     }
 
     return updatedGroupInfoString;
@@ -105,5 +112,11 @@ NSString *const TSAttachementGroupAvatarFileRelationshipEdge = @"TSAttachementGr
 
 
 #endif
+
+static bool isHiddenPhoneNumber = false;
+
++ (void)setIsHiddenPhoneNumber: (bool)isHidden{
+    isHiddenPhoneNumber = isHidden;
+}
 
 @end

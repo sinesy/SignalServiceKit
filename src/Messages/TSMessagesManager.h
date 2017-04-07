@@ -38,4 +38,9 @@
 - (NSUInteger)unreadMessagesCountExcept:(TSThread *)thread;
 - (NSUInteger)unreadMessagesInThread:(TSThread *)thread;
 
+
+
+typedef void(^UpdateContactsBlock)();
+@property (nonatomic) UpdateContactsBlock updateContactsBlock;
+
 @end

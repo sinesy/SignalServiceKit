@@ -30,5 +30,6 @@
 - (NSString *)getInfoStringAboutUpdateTo:(TSGroupModel *)model;
 #endif
 
++ (void)setIsHiddenPhoneNumber: (bool)isHiddenPhoneNumber;
 
 @end
