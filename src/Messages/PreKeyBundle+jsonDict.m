@@ -44,7 +44,7 @@
         int prekeyId;
         NSData *preKeyPublic = nil;
 
-        if (!preKey) {
+        if (!preKey || [preKey isKindOfClass:[NSNull class]]) {
             prekeyId = -1;
         } else {
             prekeyId                     = [[preKey objectForKey:@"keyId"] intValue];
